@@ -1,14 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '../../../../lib/db';
 import Product from '../../../../models/Product';
 
 // @desc    Fetch single product
 // @route   GET /api/products/:id
-export async function GET(request: Request, context: any) {
+export async function GET(request: NextRequest, context: any) {
   try {
     await connectDB();
     
-    // New Next.js requirement: We must await the params object safely
+    // Safely awaiting params context
     const params = await context.params;
     const productId = params.id;
 
@@ -27,14 +27,18 @@ export async function GET(request: Request, context: any) {
 
 // @desc    Update a product
 // @route   PUT /api/products/:id
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: any) {
   try {
     await connectDB();
     
+    // Await the params context before reading the ID
+    const params = await context.params;
+    const productId = params.id;
+
     // TODO: Add Admin Authentication Check Here
 
     const body = await request.json();
-    const product = await Product.findById(params.id);
+    const product = await Product.findById(productId);
 
     if (product) {
       product.name = body.name || product.name;
@@ -59,13 +63,17 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: any) {
   try {
     await connectDB();
 
+    // Await the params context before reading the ID
+    const params = await context.params;
+    const productId = params.id;
+
     // TODO: Add Admin Authentication Check Here
 
-    const product = await Product.findById(params.id);
+    const product = await Product.findById(productId);
 
     if (product) {
       await Product.deleteOne({ _id: product._id });
