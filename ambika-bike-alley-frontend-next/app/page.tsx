@@ -7,7 +7,7 @@ import { useGetProductsQuery } from '../store/productsApiSlice';
 
 const HomeScreen = () => {
   // We use your exact same state variables
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error } = useGetProductsQuery("");
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

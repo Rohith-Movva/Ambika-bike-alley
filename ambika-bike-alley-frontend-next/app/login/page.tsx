@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'; // Next.js native 
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../../store/usersApiSlice';
 import { setCredentials } from '../../store/authSlice';
+import { Suspense } from 'react';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -127,4 +128,17 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+// Create a wrapper component to handle the Suspense boundary
+const LoginScreenWithSuspense = () => {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center h-screen bg-white">
+        <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <LoginScreen />
+    </Suspense>
+  );
+};
+
+export default LoginScreenWithSuspense;

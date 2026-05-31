@@ -43,7 +43,7 @@ const PlaceOrderScreen = () => {
       }).unwrap();
 
       // 2. Clear the cart
-      dispatch(clearCartItems());
+      dispatch(clearCartItems(undefined));
 
       // 3. Redirect to the Receipt Page (Order Details)
       router.push(`/order/${res._id}`);
